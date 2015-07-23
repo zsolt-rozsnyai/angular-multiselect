@@ -153,7 +153,7 @@ angular.module('ui.multiselect', [])
                 res = v;
               }
             });
-            return res.label;
+            return res ? res.label : '';
           };
           
           function is_empty(obj) {
@@ -273,7 +273,7 @@ angular.module('ui.multiselect', [])
           } else {
             element.addClass('open');
             $document.bind('click', clickHandler);
-            scope.focus();
+            //scope.focus();
           }
         };
 
@@ -288,7 +288,7 @@ angular.module('ui.multiselect', [])
         scope.focus = function focus(){
           var searchBox = element.find('input')[0];
           if(searchBox){
-            //searchBox.focus(); 
+            searchBox.focus(); 
           }
         }
 
