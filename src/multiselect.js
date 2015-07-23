@@ -263,6 +263,8 @@ angular.module('ui.multiselect', [])
       link: function (scope, element, attrs) {
 
         scope.isVisible = false;
+        
+        scope.searchText = {};
 
         scope.toggleSelect = function () {
           if (element.hasClass('open')) {
@@ -286,7 +288,7 @@ angular.module('ui.multiselect', [])
         scope.focus = function focus(){
           var searchBox = element.find('input')[0];
           if(searchBox){
-            searchBox.focus(); 
+            //searchBox.focus(); 
           }
         }
 
