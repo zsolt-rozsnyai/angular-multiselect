@@ -171,17 +171,21 @@ angular.module('ui.multiselect', [])
 
           function selectSingle(item) {
             if (item.checked) {
-              scope.uncheckAll();
+              scope.uncheckAll(true);
             } else {
-              scope.uncheckAll();
+              scope.uncheckAll(true);
               item.checked = !item.checked;
             }
-            setModelValue(false);
+            //setModelValue(false);
           }
 
           function selectMultiple(item) {
             item.checked = !item.checked;
-            setModelValue(true);
+            //setModelValue(true);
+          }
+          
+          scope.setDetails = function setModelValue(isMultiple){
+            setModelValue(isMultiple);
           }
 
           function setModelValue(isMultiple) {
@@ -200,6 +204,7 @@ angular.module('ui.multiselect', [])
                 }
               })
             }
+            console.log('modelchanged', value);
             modelCtrl.$setViewValue(value);
           }
 
@@ -207,7 +212,7 @@ angular.module('ui.multiselect', [])
             if (!angular.isArray(newVal)) {
               angular.forEach(scope.items, function (item) {
                 if (angular.equals(item.model, newVal)) {
-                  scope.uncheckAll();
+                  scope.uncheckAll(true);
                   item.checked = true;
                   setModelValue(false);
                   return false;
@@ -225,28 +230,32 @@ angular.module('ui.multiselect', [])
             }
           }
 
-          scope.checkAll = function () {
+          scope.checkAll = function (dontSetValue) {
             if (!isMultiple) return;
             angular.forEach(scope.items, function (item) {
               item.checked = true;
             });
-            setModelValue(true);
+            if(!dontSetValue){setModelValue(true);}
           };
 
-          scope.uncheckAll = function () {
+          scope.uncheckAll = function (dontSetValue) {
             angular.forEach(scope.items, function (item) {
               item.checked = false;
             });
-            setModelValue(true);
+            if(!dontSetValue){setModelValue(true);}
           };
 
           scope.select = function (item) {
+          console.log('select');
             if (isMultiple === false) {
               selectSingle(item);
               scope.toggleSelect();
+              setModelValue(false);
             } else {
               selectMultiple(item);
+              setModelValue(true);
             }
+          console.log('select-end');
           }
         }
       };
