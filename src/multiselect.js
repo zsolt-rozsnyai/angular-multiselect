@@ -128,11 +128,12 @@ angular.module('ui.multiselect', [])
                   } else {
                      
                       var res = [];
-                      for(var i = 0; i < Math.min(scope.items.length, 10); i++) {
+                      for(var i = 0; i < scope.items.length; i++) {
                           if(modelCtrl.$modelValue.indexOf(scope.items[i].model) > -1) {
                               res.push(scope.items[i].label);
                           }
                       }
+                      res = res.slice(0,9);
                       scope.header = res.join(', ');
                       if (modelCtrl.$modelValue.length > 10) {
                           scope.header += ' és tobábbi ' + (modelCtrl.$modelValue.length - 10);
