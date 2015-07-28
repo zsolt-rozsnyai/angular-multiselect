@@ -107,12 +107,17 @@ angular.module('ui.multiselect', [])
             for (var i = 0; i < model.length; i++) {
               var local = {};
               local[parsedResult.itemName] = model[i];
+              var checked = false;
+              if(modelCtrl.$modelValue === parsedResult.modelMapper(local)){
+                checked = true;
+              }
               scope.items.push({
                 label: parsedResult.viewMapper(local),
                 model: parsedResult.modelMapper(local),
-                checked: false
+                checked: checked
               });
             }
+            getHeaderText();
           }
 
           parseModel();
@@ -128,12 +133,11 @@ angular.module('ui.multiselect', [])
                   } else {
                      
                       var res = [];
-                      for(var i = 0; i < scope.items.length; i++) {
+                      for(var i = 0; i < Math.min(scope.items.length, 10); i++) {
                           if(modelCtrl.$modelValue.indexOf(scope.items[i].model) > -1) {
                               res.push(scope.items[i].label);
                           }
                       }
-                      res = res.slice(0,9);
                       scope.header = res.join(', ');
                       if (modelCtrl.$modelValue.length > 10) {
                           scope.header += ' és tobábbi ' + (modelCtrl.$modelValue.length - 10);
@@ -205,7 +209,6 @@ angular.module('ui.multiselect', [])
                 }
               })
             }
-            console.log('modelchanged', value);
             modelCtrl.$setViewValue(value);
           }
 
@@ -247,7 +250,6 @@ angular.module('ui.multiselect', [])
           };
 
           scope.select = function (item) {
-          console.log('select');
             if (isMultiple === false) {
               selectSingle(item);
               scope.toggleSelect();
@@ -256,7 +258,6 @@ angular.module('ui.multiselect', [])
               selectMultiple(item);
               setModelValue(true);
             }
-          console.log('select-end');
           }
         }
       };
